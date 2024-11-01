@@ -1,112 +1,26 @@
 package com.appiot;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MQTT";
-    private static final String MQTTSERVER = "tcp://test.mosquitto.org:1883";
-    private static final String VALVE_COMMAND_TOPIC = "valve/controller";
-    private static final String VALVE_STATUS_TOPIC = "valve/status";
-    private static final String DISTANCE_TOPIC = "sensor/distance"; // Se precisar, adicione o tópico de distância
 
-    private MqttClient mqttClient;
-    private TextView distanceTextView;
-    private TextView statusTextView;
-    private Button openButton;
-    private Button closeButton;
+    private Button startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        distanceTextView = findViewById(R.id.distanceTextView);
-        statusTextView = findViewById(R.id.statusTextView);
-        openButton = findViewById(R.id.openButton);
-        closeButton = findViewById(R.id.closeButton);
+        // Inicialize o botão
+        startButton = findViewById(R.id.startButton); // Certifique-se de que o ID corresponde ao botão no layout
 
-        connectMQTT();
-
-        // Configurações dos botões
-        openButton.setOnClickListener(v -> sendCommand("abrir"));
-        closeButton.setOnClickListener(v -> sendCommand("fechar"));
-    }
-
-    private void connectMQTT() {
-        try {
-            mqttClient = new MqttClient(MQTTSERVER, MqttClient.generateClientId(), null);
-            MqttConnectOptions options = new MqttConnectOptions();
-            options.setAutomaticReconnect(true);
-            options.setCleanSession(true);
-
-            mqttClient.setCallback(new MqttCallback() {
-                @Override
-                public void connectionLost(Throwable cause) {
-                    Log.w(TAG, "Connection lost", cause);
-                }
-
-                @Override
-                public void messageArrived(String topic, MqttMessage message) {
-                    String payload = new String(message.getPayload());
-                    if (topic.equals(VALVE_STATUS_TOPIC)) {
-                        runOnUiThread(() -> statusTextView.setText("Status: " + payload));
-                    } else if (topic.equals(DISTANCE_TOPIC)) {
-                        runOnUiThread(() -> distanceTextView.setText("Distância: " + payload + " cm"));
-                    }
-                }
-
-                @Override
-                public void deliveryComplete(IMqttDeliveryToken token) {
-                    // Não é necessário para este caso
-                }
-            });
-
-            // Conectar ao broker
-            mqttClient.connect(options); // Chamada correta do método connect
-
-            // Após a conexão, inscrever nos tópicos
-            mqttClient.subscribe(VALVE_STATUS_TOPIC);
-            mqttClient.subscribe(DISTANCE_TOPIC);
-
-        } catch (MqttException e) {
-            Log.e(TAG, "Error connecting to MQTT", e);
-        }
-    }
-
-
-    private void sendCommand(String command) {
-        try {
-            mqttClient.publish(VALVE_COMMAND_TOPIC, new MqttMessage(command.getBytes()));
-            Log.d(TAG, "Command sent: " + command);
-        } catch (MqttException e) {
-            Log.e(TAG, "Error sending command", e);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (mqttClient != null && mqttClient.isConnected()) {
-            try {
-                mqttClient.disconnect();
-            } catch (MqttException e) {
-                Log.e(TAG, "Error disconnecting", e);
-            }
-        }
+        startButton.setOnClickListener(v -> {
+            Intent it = new Intent(this, Home.class); // Troque por Home.class se desejar ir para Home
+            startActivity(it);
+        });
     }
 }
