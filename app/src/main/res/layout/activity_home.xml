@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Home">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,6 +22,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
@@ -33,31 +34,30 @@
                 android:textSize="32sp" />
 
             <TextView
-                android:id="@+id/distanceTextView"
+                android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="32dp"
-                android:gravity="center"
-                android:text="Aguardando dados..."
+                android:padding="16dp"
+                android:text="Bem-vindo ao sistema de monitoramento e controle de nível de água com ESP32! Este projeto foi desenvolvido para automatizar o gerenciamento do nível de água em um reservatório, proporcionando uma solução eficiente para evitar transbordamentos e desperdícios."
                 android:textColor="@color/white"
-                android:textSize="32sp" />
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/statusTextView"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:text="Status: Desconhecido"
+                android:padding="16dp"
+                android:text="Na interface, você pode acompanhar a distância atual entre o sensor e a superfície da água, refletindo o nível do reservatório. Além disso, é possível visualizar o estado da válvula de controle: aberta (permitindo a entrada de água) ou fechada (interrompendo o fluxo). Esse monitoramento contínuo garante que o reservatório seja preenchido de forma segura e automatizada."
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="80sp"
+                android:layout_marginTop="20sp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -66,22 +66,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:width="320dp"
                     android:backgroundTint="@color/blue_700"
                     android:padding="20dp"
-                    android:text="Abrir Válvula"
-                    android:textColor="@color/white" />
-
-                <Button
-                    android:id="@+id/closeButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:backgroundTint="@color/red_700"
-                    android:padding="20dp"
-                    android:text="Fechar Válvula"
+                    android:text="Iniciar"
                     android:textColor="@color/white" />
 
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginTop="40sp"
+                android:padding="16dp"
+                android:text="Desenvolvido por Arthur Juan, Fabio Monte, Guilherme Cabral, João VItor Neris e Matheus Godoy."
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
         </LinearLayout>
     </ScrollView>
